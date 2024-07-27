@@ -9,7 +9,7 @@ export default () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const authContext = useContext(AuthContext);
-    console.log('auth context in login', authContext);
+    // console.log('auth context in login', authContext);
 
     async function signInWithEmail() {
         setLoading(true);
@@ -21,7 +21,7 @@ export default () => {
             password: password,
         });
 
-        console.log('in', session);
+        // console.log('in', session);
 
         if (error) Alert.alert(error.message);
         setLoading(false);
@@ -38,7 +38,7 @@ export default () => {
             password: password,
         });
 
-        console.log('up', session);
+        // console.log('up', session);
 
         if (error) Alert.alert(error.message);
         if (!session)

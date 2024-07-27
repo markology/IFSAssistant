@@ -23,7 +23,7 @@ export default ({ buttons }: { buttons: ButtonGroup }) => {
     const onPress = (index: number, onPressProp?: () => void) => {
         setActive(index);
     };
-    console.log({ buttons });
+    // console.log({ buttons });
     return (
         <View
             style={{

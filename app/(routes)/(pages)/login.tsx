@@ -4,6 +4,7 @@ import { TextInput, Modal, Text, Button } from 'react-native-paper';
 import { AuthContext } from '../../components/AuthContext';
 import supabase from '../../lib/supabase';
 import ThemedText from '@/app/components/ThemedText';
+import { router } from 'expo-router';
 const image = { uri: 'app/assets/images/homescreen.jpg' };
 
 export default () => {
@@ -23,7 +24,7 @@ export default () => {
             password: password,
         });
 
-        console.log({ data, error });
+        // console.log({ data, error });
 
         if (error?.message === 'Invalid login credentials') {
             let { data: accountData, error: accountCheckError } =
@@ -42,6 +43,7 @@ export default () => {
 
         if (!data?.session) return;
         authContext.setSession(data.session);
+        router.push('/welcome');
     }
 
     async function signUpWithEmail() {
@@ -56,6 +58,7 @@ export default () => {
         if (error) Alert.alert(error.message);
         authContext.setSession(session);
         setLoading(false);
+        router.push('/welcome');
     }
 
     return (

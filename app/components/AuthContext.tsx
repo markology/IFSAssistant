@@ -24,6 +24,7 @@ export type AuthContextValues = {
     session: AuthSession;
     setSession: SetAuthSession;
     supabase: SupabaseClientType | null;
+    loading: Boolean;
 };
 const image = { uri: 'app/assets/images/homescreen.jpg' };
 
@@ -33,28 +34,32 @@ export const AuthContext = createContext<AuthContextValues>({
     session: null,
     setSession: null,
     supabase: null,
+    loading: false,
 });
 
 let listener: AuthListener | null = null;
 
 export default ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User>(null);
+    const [loading, setLoading] = useState<Boolean>(false);
     const [session, setSession] = useState<AuthSession>(null);
     async function fetchMyAPI() {
-        const {
-            data: { session },
-        } = await supabase.auth.getSession();
+        setLoading(true);
+        const x = await supabase.auth.getSession();
 
-        setSession(session);
-        setUser(session ? true : false);
+        console.log(x);
 
-        console.log(session);
+        // setSession(session);
+        // setUser(session?.user.id ? true : false);
+
+        // console.log(!!session?.user.id);
 
         const { data: authListener } = supabase.auth.onAuthStateChange(
             async (event, session) => {
                 console.log(`Supabase auth event: ${event}`);
                 setSession(session);
-                setUser(session ? true : false);
+                setUser(session?.user.id ? true : false);
+                setLoading(false);
             }
         );
 
@@ -62,6 +67,7 @@ export default ({ children }: { children: React.ReactNode }) => {
     }
 
     useEffect(() => {
+        console.warn({ user });
         fetchMyAPI();
         return () => {
             listener?.subscription.unsubscribe();
@@ -76,6 +82,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                 session,
                 setSession,
                 supabase,
+                loading,
             }}
         >
             {children}

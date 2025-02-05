@@ -12,7 +12,7 @@
     "lint": "expo lint"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo-2"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
